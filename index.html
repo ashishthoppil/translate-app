@@ -1,0 +1,44 @@
+<style>
+    body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    text-align: center;
+    font-family: Roboto,"Helvetica Neue",Arial,sans-serif;
+    background: #ffe6ab;
+    }
+    .hide {
+    display: none;
+    }
+    #result {
+    margin-top: 2em;
+    background: #EF476F;
+    border-radius: 10px;
+    padding: 2rem;
+    color: #fff;
+    }
+    button {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background: #06D6A0;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    outline: inherit;
+    }
+</style>
+<div>
+    <body>
+        <h1>Speech recognition + Translation</h1>
+        <h4 id="status">Press the button below, and start speaking</h4>
+        <button onclick="startRecognition()">Speech to text</button>
+        <div>
+            <textarea id="from_lang"></textarea>
+        </div>
+        <div>
+            <textarea id="to_lang"></textarea>
+        </div>
+    </body>
+    <script type="text/javascript" src="./js/speechRecognition.js"></script>
+</div>

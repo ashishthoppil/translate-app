@@ -1,43 +1,78 @@
 <style>
     body {
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    text-align: center;
-    font-family: Roboto,"Helvetica Neue",Arial,sans-serif;
-    background: #ffe6ab;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        text-align: center;
+        font-family: Roboto,"Helvetica Neue",Arial,sans-serif;
+        background: #ffe6ab;
     }
     .hide {
-    display: none;
+        display: none;
     }
     #result {
-    margin-top: 2em;
-    background: #EF476F;
-    border-radius: 10px;
-    padding: 2rem;
-    color: #fff;
+        margin-top: 2em;
+        background: #EF476F;
+        border-radius: 10px;
+        padding: 2rem;
+        color: #fff;
     }
     button {
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    background: #06D6A0;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    outline: inherit;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border-radius: 25px;
+        background: #da5b4a;
+        border: none;
+        cursor: pointer;
     }
+    button:hover {
+        scale: 1.1;
+        transition-duration: 0.3s;
+        background: #d44531;
+    }
+    textarea {
+        border-radius: 10px;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 10px 20px;
+        font-family: Roboto,"Helvetica Neue",Arial,sans-serif;
+        font-size: 16px;
+        background: #dfdfdf;
+        font-weight: 500;
+        pointer-events: none;
+    }
+
+    #from_lang_select {
+        margin-bottom: 1rem;
+    }
+
+    #to_lang_select {
+        margin-bottom: 1rem;
+    }
+
 </style>
 <div>
     <body>
-        <h1>Speech recognition + Translation</h1>
+        <!-- <h1>Speech recognition + Translation</h1> -->
         <h4 id="status">Press the button below, and start speaking</h4>
-        <button onclick="startRecognition()">Speech to text</button>
+        <button onclick="startRecognition()">
+            <img src="./assets/icons/mic-inactive.png" />
+        </button>
         <div>
-            <textarea id="from_lang"></textarea>
+            <select name="from_lang_select" id="from_lang_select">
+                <option value="">Select language</option>
+            </select>
         </div>
         <div>
-            <textarea id="to_lang"></textarea>
+            <textarea class="from_lang" id="from_lang" rows="4"></textarea>
+        </div>
+        <div>
+            <select name="to_lang_select" id="to_lang_select">
+                <option value="">Select language</option>
+            </select>
+        </div>
+        <div>
+            <textarea class="to_lang" id="to_lang" rows="4"></textarea>
         </div>
     </body>
     <script type="text/javascript" src="./js/speechRecognition.js"></script>

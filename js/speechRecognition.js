@@ -1,31 +1,22 @@
-
+<script>
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const status = document.getElementById("status");
-const output = document.getElementById("from_lang");
-const to_lang = document.getElementById("to_lang");
-const fromSelect = document.getElementById("from_lang_select");
+const output = document.getElementById("from_lang_text");
+const to_lang = document.getElementById("to_lang_text");
 
-const languages = require('./constants/lang.js');
-
-languages.forEach((language) => {
-    var option = document.createElement("option");
-    option.text = language.text;
-    option.value = language.speechLang;
-    fromSelect.appendChild(option);
-});
-
-startRecognition = () => {
-    if (SpeechRecognition !== undefined) {
+document.getElementById('speak').getElementsByTagName('a')[0].addEventListener('click', function () {
+     if (SpeechRecognition !== undefined) {
         let recognition = new SpeechRecognition();
-        recognition.lang = "hi-IN"
+        recognition.lang = document.getElementById("from_lang_select").value
 
         recognition.onstart = () => {
-            // output.classList.add("hide");
+            to_lang.value = '';
+            document.getElementById('listening_div').classList.remove('hidden');
         };
 
         recognition.onspeechend = () => {
             recognition.stop();
+            document.getElementById('listening_div').classList.add('hidden');
         };
 
         recognition.onresult = async (result) => {
@@ -34,8 +25,8 @@ startRecognition = () => {
             method: "POST",
             body: JSON.stringify({
                 q: result.results[0][0].transcript,
-                source: "hi",
-                target: "en",
+                source: document.getElementById("from_lang_select").value.split('-')[0],
+                target: document.getElementById("to_lang_select").value.split('-')[0],
                 format: "text",
                 api_key: ""
             }),
@@ -43,17 +34,20 @@ startRecognition = () => {
         });
 
         const response = await res.json();
-
         to_lang.value = response.translatedText;
-
         let utterance = new SpeechSynthesisUtterance();
+
         // Set the text and voice of the utterance
         utterance.text = to_lang.value ;
-        utterance.voice = window.speechSynthesis.getVoices()[0];
-        utterance.lang = "en-EN";
       
         // Speak the utterance
-        window.speechSynthesis.speak(utterance);
+        if (window.screen.width > 700) {    
+            utterance.voice = window.speechSynthesis.getVoices()[0];
+            utterance.lang = document.getElementById("to_lang_select").value;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            document.getElementById('translate_btn').getElementsByTagName('a')[0].click();
+        }
 
         };
 
@@ -61,4 +55,17 @@ startRecognition = () => {
     } else {
         status.innerHTML = "sorry not supported!";
     }
-};
+});
+
+document.getElementById('translate_btn').getElementsByTagName('a')[0].addEventListener('click', function (e) {
+    e.preventDefault();
+    let utterance = new SpeechSynthesisUtterance();
+    // Set the text and voice of the utterance
+    utterance.text = to_lang.value;
+    utterance.voice = window.speechSynthesis.getVoices().filter(function (voice) { return voice.name === "Google 日本語"; })[0];
+    utterance.lang = document.getElementById("to_lang_select").value;
+    // Speak the utterance
+    window.speechSynthesis.speak(utterance);
+});
+
+</script>
